@@ -1,19 +1,16 @@
 // import "./App.css";
 import GameBoard from "./components/GameBoard";
+import AppContainer from "./ui/AppContainer";
+import { useGameLogic } from "./hooks/useGameLogic";
 
 function App() {
-  // Define the board state (e.g., 3x3 grid with default colors)
-  const board = [
-    ["red", "blue", "green"],
-    ["yellow", "purple", "orange"],
-    ["black", "white", "gray"],
-  ];
+  const { board } = useGameLogic();
 
   return (
-    <>
+    <AppContainer>
       <h1>Vite + React</h1>
       <GameBoard board={board} />
-    </>
+    </AppContainer>
   );
 }
 
