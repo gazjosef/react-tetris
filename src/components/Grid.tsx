@@ -1,28 +1,38 @@
-import {
-  GridContainer,
-  Cell,
-  GRID_WIDTH,
-  GRID_HEIGHT,
-  // CELL_WIDTH,
-  // CELL_HEIGHT,
-} from "../ui/Grid";
+import React from "react";
+import styled from "styled-components";
 
-interface Cell {
-  taken: boolean;
-  colour: string | null;
+// import { GridContainer, Cell, GRID_WIDTH, GRID_HEIGHT } from "../ui/Grid";
+
+const GRID_WIDTH = 10;
+const GRID_HEIGHT = 20;
+
+const StyledGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(${GRID_WIDTH}, 30px);
+  grid-template-rows: repeat(${GRID_HEIGHT}, 30px);
+  gap: 1px;
+  background: #222;
+  padding: 5px;
+`;
+
+const Cell = styled.div<{ isActive: boolean }>`
+  width: 30px;
+  height: 30px;
+  background: ${({ isActive }) => (isActive ? "#FFD700" : "#111")};
+  border: 1px solid #333;
+`;
+
+interface GridProps {
+  grid: number[];
 }
 
-// interface GridProps {
-//   grid: Cell[];
-// }
-
-const Grid = () => {
+const Grid: React.FC<GridProps> = ({ grid }) => {
   return (
-    <GridContainer>
-      {Array.from({ length: GRID_WIDTH * GRID_HEIGHT }).map((_, index) => (
-        <Cell key={index} />
+    <StyledGrid>
+      {grid.map((cell, index) => (
+        <Cell key={index} isActive={cell === 1} />
       ))}
-    </GridContainer>
+    </StyledGrid>
   );
 };
 

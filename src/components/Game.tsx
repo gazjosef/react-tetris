@@ -1,47 +1,35 @@
-import React, { useEffect } from "react";
-import styled from "styled-components";
+import { useState, useEffect, useCallback } from "react";
 import Grid from "./Grid";
-import Sidebar from "./Sidebar";
-import NextTetromino from "./NextTetromino";
-import { useTetris } from "../hooks/useTetris";
+import { tetrominoes, TetrominoType, GRID_WIDTH } from "../utils/tetrominoes";
 
-const GameContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: centre;
-`;
+const GRID_HEIGHT = 20;
 
-const Game: React.FC = () => {
-  const {
-    grid,
-    score,
-    level,
-    nextIndex,
-    moveLeft,
-    toggleStartPause,
-    // Additional functions like moveRight, rotate can be added here
-  } = useTetris();
+const createEmptyGrid = () => Array(GRID_WIDTH * GRID_HEIGHT).fill(0);
 
-  // Keyboard controls for desktop
+const Game = () => {
+  const [grid, setGrid] = useState(createEmptyGrid());
+  const [currentTetromino] = useState<TetrominoType>("T");
+  const [position] = useState(4); // Start position in the grid
+
+  // Memoised function to draw tetromino on grid
+  const drawTetromino = useCallback(() => {
+    const newGrid = createEmptyGrid();
+    tetrominoes[currentTetromino].forEach((offset) => {
+      newGrid[position + offset] = 1; // Mark tetromino on the grid
+    });
+    setGrid(newGrid);
+  }, [currentTetromino, position]); // Only changes when these dependencies change
+
+  // Draw tetromino when game starts
   useEffect(() => {
-    const handleKeyUp = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") moveLeft();
-      // Add arrow right, down, and rotation controls here
-    };
-    window.addEventListener("keyup", handleKeyUp);
-    return () => window.removeEventListener("keyup", handleKeyUp);
-  }, [moveLeft]);
+    drawTetromino();
+  }, [drawTetromino]); // Now it's safe to include drawTetromino
 
   return (
-    <GameContainer>
+    <div>
+      <h1>Tetris</h1>
       <Grid grid={grid} />
-      <Sidebar
-        score={score}
-        level={level}
-        toggleStartPause={toggleStartPause}
-      />
-      <NextTetromino nextIndex={nextIndex} />
-    </GameContainer>
+    </div>
   );
 };
 

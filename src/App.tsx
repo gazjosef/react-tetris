@@ -1,5 +1,5 @@
 // import AppContainer from "./ui/AppContainer";
-import Grid from "./components/Grid";
+import Game from "./components/Game";
 import GlobalStyles from "./styles/GlobalStyles";
 
 function App() {
@@ -7,7 +7,7 @@ function App() {
     <>
       <GlobalStyles />
       <h1>Vite + React + TS</h1>
-      <Grid />
+      <Game />
     </>
   );
 }
