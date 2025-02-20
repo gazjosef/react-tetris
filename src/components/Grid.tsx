@@ -1,19 +1,25 @@
-import React from "react";
-import { GridContainer, Cell } from "../ui/Grid";
+import {
+  GridContainer,
+  Cell,
+  GRID_WIDTH,
+  GRID_HEIGHT,
+  // CELL_WIDTH,
+  // CELL_HEIGHT,
+} from "../ui/Grid";
 
 interface Cell {
   taken: boolean;
   colour: string | null;
 }
 
-interface GridProps {
-  grid: Cell[];
-}
+// interface GridProps {
+//   grid: Cell[];
+// }
 
-const Grid: React.FC<GridProps> = ({ grid }) => {
+const Grid = () => {
   return (
     <GridContainer>
-      {grid.map((_cell, index) => (
+      {Array.from({ length: GRID_WIDTH * GRID_HEIGHT }).map((_, index) => (
         <Cell key={index} />
       ))}
     </GridContainer>

@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
-const GRID_WIDTH = 10;
-const GRID_HEIGHT = 20;
-const CELL_WIDTH = 30;
-const CELL_HEIGHT = 30;
+export const GRID_WIDTH = 10;
+export const GRID_HEIGHT = 20;
+export const CELL_WIDTH = 30;
+export const CELL_HEIGHT = 30;
 
 // interface Cell {
 //   taken: boolean;
@@ -24,8 +24,8 @@ export const GridContainer = styled.div`
 `;
 
 export const Cell = styled.div`
-  width: ${CELL_WIDTH};
-  height: ${CELL_HEIGHT};
+  width: ${CELL_WIDTH}px;
+  height: ${CELL_HEIGHT}px;
   background: white;
   border: 1px solid gray;
 `;
