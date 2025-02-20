@@ -11,6 +11,25 @@ const Game = () => {
   const [currentTetromino] = useState<TetrominoType>("T");
   const [position, setPosition] = useState(4); // Start position in the grid
 
+  // Function to check collision
+  const checkCollision = useCallback(
+    (newPosition: number) => {
+      return tetrominoes[currentTetromino].some((offset) => {
+        const index = newPosition + offset;
+        const row = Math.floor(index / GRID_WIDTH);
+        const col = index % GRID_WIDTH;
+
+        return (
+          col < 0 || // Left boundary
+          col >= GRID_WIDTH || // Right boundary
+          row >= GRID_HEIGHT || // Bottom boundary
+          grid[index] !== 0 // Collision with another block
+        );
+      });
+    },
+    [grid, currentTetromino]
+  );
+
   // Memoised function to draw tetromino on grid
   const drawTetromino = useCallback(() => {
     const newGrid = createEmptyGrid();
@@ -21,17 +40,20 @@ const Game = () => {
   }, [currentTetromino, position]); // Only changes when these dependencies change
 
   // Move tetromino left, right, or down
-  const moveTetromino = useCallback((direction: "left" | "right" | "down") => {
-    setPosition((prev) => {
-      const newPos =
-        direction === "left"
-          ? prev - 1
-          : direction === "right"
-          ? prev + 1
-          : prev + GRID_WIDTH; // Move down
-      return newPos;
-    });
-  }, []);
+  const moveTetromino = useCallback(
+    (direction: "left" | "right" | "down") => {
+      setPosition((prev) => {
+        const newPos =
+          direction === "left"
+            ? prev - 1
+            : direction === "right"
+            ? prev + 1
+            : prev + GRID_WIDTH; // Move down
+        return checkCollision(newPos) ? prev : newPos;
+      });
+    },
+    [checkCollision]
+  );
 
   // Handle keyboard input
   const handleKeyDown = useCallback(
