@@ -1,15 +1,11 @@
-// import "./App.css";
-import GameBoard from "./components/GameBoard";
 import AppContainer from "./ui/AppContainer";
-import { useGameLogic } from "./hooks/useGameLogic";
+import GlobalStyles from "./styles/GlobalStyles";
 
 function App() {
-  const { board } = useGameLogic();
-
   return (
     <AppContainer>
+      <GlobalStyles />
       <h1>Vite + React</h1>
-      <GameBoard board={board} />
     </AppContainer>
   );
 }
