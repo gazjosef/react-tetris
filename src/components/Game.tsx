@@ -49,6 +49,7 @@ const Game = () => {
             : direction === "right"
             ? prev + 1
             : prev + GRID_WIDTH; // Move down
+        console.log("Attempting to move to position:", newPos);
         return checkCollision(newPos) ? prev : newPos;
       });
     },
@@ -58,6 +59,7 @@ const Game = () => {
   // Handle keyboard input
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
+      console.log("Key pressed:", event.key);
       if (event.key === "ArrowLeft") moveTetromino("left");
       if (event.key === "ArrowRight") moveTetromino("right");
       if (event.key === "ArrowDown") moveTetromino("down");
