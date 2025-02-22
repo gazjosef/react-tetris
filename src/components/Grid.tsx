@@ -7,18 +7,19 @@ const GRID_WIDTH = 10;
 const GRID_HEIGHT = 20;
 
 const StyledGrid = styled.div`
+  background: #222;
+  padding: 5px;
+
   display: grid;
   grid-template-columns: repeat(${GRID_WIDTH}, 30px);
   grid-template-rows: repeat(${GRID_HEIGHT}, 30px);
   gap: 1px;
-  background: #222;
-  padding: 5px;
 `;
 
-const Cell = styled.div<{ isActive: boolean }>`
+const Cell = styled.div<{ $isActive: boolean }>`
   width: 30px;
   height: 30px;
-  background: ${({ isActive }) => (isActive ? "#FFD700" : "#111")};
+  background: ${({ $isActive }) => ($isActive ? "#FFD700" : "#111")};
   border: 1px solid #333;
 `;
 
@@ -30,7 +31,7 @@ const Grid: React.FC<GridProps> = ({ grid }) => {
   return (
     <StyledGrid>
       {grid.map((cell, index) => (
-        <Cell key={index} isActive={cell === 1} />
+        <Cell key={index} $isActive={cell === 1} />
       ))}
     </StyledGrid>
   );
