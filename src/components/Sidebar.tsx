@@ -9,7 +9,7 @@ interface SidebarProps {
 
 const SidebarContainer = styled.aside`
   margin-left: 1rem;
-  colour: #fff;
+  color: #fff;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -22,7 +22,7 @@ const Score = styled.h3`
 const Button = styled.button`
   padding: 0.5rem 1rem;
   background: #444;
-  colour: #fff;
+  color: #fff;
   border: none;
   cursor: pointer;
   margin-top: 1rem;

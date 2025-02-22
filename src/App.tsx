@@ -6,7 +6,6 @@ function App() {
   return (
     <>
       <GlobalStyles />
-      <h1>Vite + React + TS</h1>
       <Game />
     </>
   );

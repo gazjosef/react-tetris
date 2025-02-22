@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Grid from "./Grid";
 import { tetrominoes, TetrominoType, GRID_WIDTH } from "../utils/tetrominoes";
+import { GridCenter } from "../ui/Utils";
 
 const GRID_HEIGHT = 20;
 
@@ -80,8 +81,9 @@ const Game = () => {
 
   return (
     <div>
-      <h1>Tetris</h1>
-      <Grid grid={grid} />
+      <GridCenter>
+        <Grid grid={grid} />
+      </GridCenter>
     </div>
   );
 };
