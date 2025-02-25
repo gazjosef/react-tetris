@@ -1,37 +1,40 @@
+// Grid.tsx
 import React from "react";
 import styled from "styled-components";
 
-// import { GridContainer, Cell, GRID_WIDTH, GRID_HEIGHT } from "../ui/Grid";
-
-const GRID_WIDTH = 10;
-const GRID_HEIGHT = 20;
+// Define grid dimensions here.
+export const GRID_WIDTH = 10;
+export const GRID_HEIGHT = 20;
 
 const StyledGrid = styled.div`
   background: #222;
   padding: 5px;
-
   display: grid;
   grid-template-columns: repeat(${GRID_WIDTH}, 30px);
   grid-template-rows: repeat(${GRID_HEIGHT}, 30px);
   gap: 1px;
 `;
 
-const Cell = styled.div<{ $isActive: boolean }>`
+interface CellProps {
+  $cellValue: string | null;
+}
+
+const Cell = styled.div<CellProps>`
   width: 30px;
   height: 30px;
-  background: ${({ $isActive }) => ($isActive ? "#FFD700" : "#111")};
+  background: ${({ $cellValue }) => ($cellValue ? $cellValue : "#111")};
   border: 1px solid #333;
 `;
 
 interface GridProps {
-  grid: number[];
+  grid: (string | null)[];
 }
 
 const Grid: React.FC<GridProps> = ({ grid }) => {
   return (
     <StyledGrid>
-      {grid.map((cell, index) => (
-        <Cell key={index} $isActive={cell === 1} />
+      {grid.map((cellValue, index) => (
+        <Cell key={index} $cellValue={cellValue} />
       ))}
     </StyledGrid>
   );

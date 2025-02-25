@@ -1,11 +1,62 @@
-export const GRID_WIDTH = 10;
+// tetrominoes.ts
+export type TetrominoShape = number[][];
 
-export const tetrominoes = {
-  L: [1, GRID_WIDTH + 1, GRID_WIDTH * 2 + 1, 2], // "L" shape
-  T: [1, GRID_WIDTH, GRID_WIDTH + 1, GRID_WIDTH + 2], // "T" shape
-  O: [0, 1, GRID_WIDTH, GRID_WIDTH + 1], // "O" (Square)
-  Z: [0, 1, GRID_WIDTH + 1, GRID_WIDTH + 2], // "Z" shape
-  I: [0, GRID_WIDTH, GRID_WIDTH * 2, GRID_WIDTH * 3], // "I" shape
+export interface Tetromino {
+  shape: TetrominoShape;
+  colour: string;
+}
+
+export const TETROMINOES: { [key: string]: Tetromino } = {
+  I: {
+    shape: [[1, 1, 1, 1]],
+    colour: "#00f0f0",
+  },
+  O: {
+    shape: [
+      [1, 1],
+      [1, 1],
+    ],
+    colour: "#f0f000",
+  },
+  T: {
+    shape: [
+      [0, 1, 0],
+      [1, 1, 1],
+    ],
+    colour: "#a000f0",
+  },
+  S: {
+    shape: [
+      [0, 1, 1],
+      [1, 1, 0],
+    ],
+    colour: "#00f000",
+  },
+  Z: {
+    shape: [
+      [1, 1, 0],
+      [0, 1, 1],
+    ],
+    colour: "#f00000",
+  },
+  J: {
+    shape: [
+      [1, 0, 0],
+      [1, 1, 1],
+    ],
+    colour: "#0000f0",
+  },
+  L: {
+    shape: [
+      [0, 0, 1],
+      [1, 1, 1],
+    ],
+    colour: "#f0a000",
+  },
 };
 
-export type TetrominoType = keyof typeof tetrominoes;
+export const getRandomTetromino = (): Tetromino => {
+  const keys = Object.keys(TETROMINOES);
+  const randomKey = keys[Math.floor(Math.random() * keys.length)];
+  return TETROMINOES[randomKey];
+};
