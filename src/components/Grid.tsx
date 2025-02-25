@@ -9,6 +9,8 @@ export const GRID_HEIGHT = 20;
 const StyledGrid = styled.div`
   background: #222;
   padding: 5px;
+  border: 2px solid grey;
+
   display: grid;
   grid-template-columns: repeat(${GRID_WIDTH}, 30px);
   grid-template-rows: repeat(${GRID_HEIGHT}, 30px);
@@ -24,6 +26,7 @@ const Cell = styled.div<CellProps>`
   height: 30px;
   background: ${({ $cellValue }) => ($cellValue ? $cellValue : "#111")};
   border: 1px solid #333;
+  box-shadow: inset 6px -6px 3px 0 rgba(0, 0, 0, 0.35);
 `;
 
 interface GridProps {
