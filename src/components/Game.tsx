@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Grid, { GRID_WIDTH, GRID_HEIGHT } from "./Grid";
-import { GridCenter } from "../ui/Utils";
 import { getRandomTetromino, Tetromino } from "../utils/tetrominoes";
 import {
   createEmptyGrid,
@@ -8,6 +7,7 @@ import {
   clearFullRows,
 } from "../utils/gameUtils";
 import useGameControls from "../hooks/useGameControls";
+import { CenteredGrid } from "../styles/Layout";
 
 const Game: React.FC = () => {
   const [grid, setGrid] = useState<(string | null)[][]>(createEmptyGrid());
@@ -62,9 +62,9 @@ const Game: React.FC = () => {
   const flatGrid = mergedGrid.flat();
 
   return (
-    <GridCenter>
+    <CenteredGrid>
       <Grid grid={flatGrid} />
-    </GridCenter>
+    </CenteredGrid>
   );
 };
 
