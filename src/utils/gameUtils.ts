@@ -32,3 +32,48 @@ export const mergeTetromino = (
   );
   return mergedGrid;
 };
+
+// interface Position {
+//   x: number;
+//   y: number;
+// }
+
+export const checkCollision = (
+  grid: (string | null)[][],
+  tetromino: Tetromino,
+  position: { x: number; y: number }
+): boolean => {
+  return tetromino.shape.some((row, y) =>
+    row.some((value, x) => {
+      if (value) {
+        const newX = position.x + x;
+        const newY = position.y + y;
+        // Check out-of-bounds
+        if (newX < 0 || newX >= GRID_WIDTH || newY >= GRID_HEIGHT) {
+          return true;
+        }
+        // Check if the space is already occupied
+        if (newY >= 0 && grid[newY][newX] !== null) {
+          return true;
+        }
+      }
+      return false;
+    })
+  );
+};
+
+export const clearFullRows = (
+  grid: (string | null)[][]
+): (string | null)[][] => {
+  const newGrid = grid.filter((row) => row.some((cell) => cell === null));
+  const rowsCleared = GRID_HEIGHT - newGrid.length;
+
+  console.log(rowsCleared);
+
+  // Add empty rows at the top
+  while (newGrid.length < GRID_HEIGHT) {
+    newGrid.unshift(Array(GRID_WIDTH).fill(null));
+  }
+
+  return newGrid;
+};

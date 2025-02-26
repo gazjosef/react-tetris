@@ -1,13 +1,16 @@
-// Game.tsx
 import React, { useState, useEffect } from "react";
 import Grid, { GRID_WIDTH, GRID_HEIGHT } from "./Grid";
 import { GridCenter } from "../ui/Utils";
 import { getRandomTetromino, Tetromino } from "../utils/tetrominoes";
-import { createEmptyGrid, mergeTetromino } from "../utils/gameUtils";
+import {
+  createEmptyGrid,
+  mergeTetromino,
+  clearFullRows,
+} from "../utils/gameUtils";
+import useGameControls from "../hooks/useGameControls";
 
 const Game: React.FC = () => {
-  // Create the grid using our helper
-  const [grid] = useState<(string | null)[][]>(createEmptyGrid());
+  const [grid, setGrid] = useState<(string | null)[][]>(createEmptyGrid());
   const [currentTetromino, setCurrentTetromino] = useState<Tetromino>(
     getRandomTetromino()
   );
@@ -16,14 +19,35 @@ const Game: React.FC = () => {
     y: 0,
   });
 
-  // Move the tetromino down automatically every second.
+  const moveLeft = () => setPosition((prev) => ({ ...prev, x: prev.x - 1 }));
+  const moveRight = () => setPosition((prev) => ({ ...prev, x: prev.x + 1 }));
+  const drop = () => setPosition((prev) => ({ ...prev, y: prev.y + 1 }));
+  const rotate = () =>
+    setCurrentTetromino((prev) => ({
+      ...prev,
+      shape: prev.shape[0].map((_, i) =>
+        prev.shape.map((row) => row[i]).reverse()
+      ),
+    }));
+
+  useGameControls({
+    moveLeft,
+    moveRight,
+    drop,
+    rotate,
+    grid,
+    tetromino: currentTetromino,
+    position,
+  });
+
   useEffect(() => {
     const interval = setInterval(() => {
       setPosition((prevPos) => {
         const nextPos = { ...prevPos, y: prevPos.y + 1 };
-        // Check if the tetromino reached the bottom.
         if (nextPos.y + currentTetromino.shape.length > GRID_HEIGHT) {
-          // Spawn a new tetromino at the top.
+          setGrid((prevGrid) =>
+            clearFullRows(mergeTetromino(prevGrid, currentTetromino, prevPos))
+          );
           setCurrentTetromino(getRandomTetromino());
           return { x: Math.floor(GRID_WIDTH / 2) - 1, y: 0 };
         }
@@ -34,9 +58,7 @@ const Game: React.FC = () => {
     return () => clearInterval(interval);
   }, [currentTetromino]);
 
-  // Merge the falling tetromino onto the grid.
   const mergedGrid = mergeTetromino(grid, currentTetromino, position);
-  // Flatten the 2D grid for our Grid component.
   const flatGrid = mergedGrid.flat();
 
   return (
