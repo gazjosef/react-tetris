@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Grid, { GRID_WIDTH, GRID_HEIGHT } from "./Grid";
+import Grid, { GRID_WIDTH, GRID_HEIGHT } from "../components/Grid";
 import { getRandomTetromino, Tetromino } from "../utils/tetrominoes";
 import {
   createEmptyGrid,
