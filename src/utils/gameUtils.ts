@@ -55,10 +55,6 @@ export const checkCollision = (
   );
 };
 
-export const rotateTetromino = (shape: number[][]): number[][] => {
-  return shape[0].map((_, i) => shape.map((row) => row[i]).reverse());
-};
-
 export const clearFullRows = (
   grid: (string | null)[][]
 ): (string | null)[][] => {
