@@ -2,18 +2,14 @@
 import { GRID_WIDTH, GRID_HEIGHT } from "../components/Grid";
 import { Tetromino } from "../game/tetrominoes";
 
-// Create an empty 2D grid filled with null (meaning no colour)
 export const createEmptyGrid = (): (string | null)[][] =>
   Array.from({ length: GRID_HEIGHT }, () => Array(GRID_WIDTH).fill(null));
 
-// Merge a tetromino into a grid, using the tetromino's colour for filled cells.
 export const mergeTetromino = (
   grid: (string | null)[][],
   tetromino: Tetromino,
   position: { x: number; y: number }
 ): (string | null)[][] => {
-  // Clone the grid
-  // const mergedGrid = grid.map((row) => [...row]);
   const mergedGrid = grid.map((row) => row.slice());
 
   tetromino.shape.forEach((row, y) =>
@@ -57,6 +53,10 @@ export const checkCollision = (
       return false;
     })
   );
+};
+
+export const rotateTetromino = (shape: number[][]): number[][] => {
+  return shape[0].map((_, i) => shape.map((row) => row[i]).reverse());
 };
 
 export const clearFullRows = (

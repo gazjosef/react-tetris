@@ -7,6 +7,8 @@ import {
   createEmptyGrid,
   mergeTetromino,
   clearFullRows,
+  checkCollision,
+  rotateTetromino,
 } from "../utils/gameUtils";
 
 const Game: React.FC = () => {
@@ -22,13 +24,19 @@ const Game: React.FC = () => {
   const moveLeft = () => setPosition((prev) => ({ ...prev, x: prev.x - 1 }));
   const moveRight = () => setPosition((prev) => ({ ...prev, x: prev.x + 1 }));
   const drop = () => setPosition((prev) => ({ ...prev, y: prev.y + 1 }));
-  const rotate = () =>
-    setCurrentTetromino((prev) => ({
-      ...prev,
-      shape: prev.shape[0].map((_, i) =>
-        prev.shape.map((row) => row[i]).reverse()
-      ),
-    }));
+
+  const rotate = () => {
+    const rotatedShape = rotateTetromino(currentTetromino.shape);
+    if (
+      !checkCollision(
+        grid,
+        { ...currentTetromino, shape: rotatedShape },
+        position
+      )
+    ) {
+      setCurrentTetromino((prev) => ({ ...prev, shape: rotatedShape }));
+    }
+  };
 
   useGameControls({
     moveLeft,
