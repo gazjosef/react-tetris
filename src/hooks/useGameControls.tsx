@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { checkCollision } from "../utils/gameUtils";
-import { Tetromino } from "../utils/tetrominoes";
+import { Tetromino } from "../game/tetrominoes";
 
 interface GameControls {
   moveLeft: () => void;

@@ -1,6 +1,6 @@
 // gameUtils.ts
 import { GRID_WIDTH, GRID_HEIGHT } from "../components/Grid";
-import { Tetromino } from "./tetrominoes";
+import { Tetromino } from "../game/tetrominoes";
 
 // Create an empty 2D grid filled with null (meaning no colour)
 export const createEmptyGrid = (): (string | null)[][] =>
@@ -13,7 +13,9 @@ export const mergeTetromino = (
   position: { x: number; y: number }
 ): (string | null)[][] => {
   // Clone the grid
-  const mergedGrid = grid.map((row) => [...row]);
+  // const mergedGrid = grid.map((row) => [...row]);
+  const mergedGrid = grid.map((row) => row.slice());
+
   tetromino.shape.forEach((row, y) =>
     row.forEach((value, x) => {
       if (value) {
@@ -32,11 +34,6 @@ export const mergeTetromino = (
   );
   return mergedGrid;
 };
-
-// interface Position {
-//   x: number;
-//   y: number;
-// }
 
 export const checkCollision = (
   grid: (string | null)[][],

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Grid, { GRID_WIDTH, GRID_HEIGHT } from "../components/Grid";
-import { getRandomTetromino, Tetromino } from "../utils/tetrominoes";
+import useGameControls from "../hooks/useGameControls";
+import { CenteredGrid } from "../styles/Layout";
+import { getRandomTetromino, Tetromino } from "./tetrominoes";
 import {
   createEmptyGrid,
   mergeTetromino,
   clearFullRows,
 } from "../utils/gameUtils";
-import useGameControls from "../hooks/useGameControls";
-import { CenteredGrid } from "../styles/Layout";
 
 const Game: React.FC = () => {
   const [grid, setGrid] = useState<(string | null)[][]>(createEmptyGrid());
