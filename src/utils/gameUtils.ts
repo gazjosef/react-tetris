@@ -57,16 +57,13 @@ export const checkCollision = (
 
 export const clearFullRows = (
   grid: (string | null)[][]
-): (string | null)[][] => {
+): { newGrid: (string | null)[][]; rowsCleared: number } => {
   const newGrid = grid.filter((row) => row.some((cell) => cell === null));
   const rowsCleared = GRID_HEIGHT - newGrid.length;
 
-  console.log(rowsCleared);
-
-  // Add empty rows at the top
   while (newGrid.length < GRID_HEIGHT) {
     newGrid.unshift(Array(GRID_WIDTH).fill(null));
   }
 
-  return newGrid;
+  return { newGrid, rowsCleared };
 };

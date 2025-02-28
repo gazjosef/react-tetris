@@ -1,10 +1,8 @@
-import { useState, useEffect } from "react";
-import Grid, {
-  GRID_WIDTH,
-  // GRID_HEIGHT
-} from "../components/Grid";
+import { useState, useEffect, useCallback } from "react";
+import Grid, { GRID_WIDTH } from "../components/Grid";
 import useGameControls from "../hooks/useGameControls";
-import { CenteredGrid } from "../styles/Layout";
+import ScoreBoard from "../components/Scoreboard";
+import { CenteredGrid, Flex } from "../styles/Layout";
 import { getRandomTetromino, Tetromino } from "./tetrominoes";
 import {
   createEmptyGrid,
@@ -12,6 +10,10 @@ import {
   clearFullRows,
   checkCollision,
 } from "../utils/gameUtils";
+
+const LEVEL_SPEED = 1000;
+const POINTS_PER_ROW = 10;
+const POINTS_PER_LEVEL = 100;
 
 const Game = () => {
   const [grid, setGrid] = useState<(string | null)[][]>(createEmptyGrid());
@@ -22,6 +24,8 @@ const Game = () => {
     x: Math.floor(GRID_WIDTH / 2) - 1,
     y: 0,
   });
+  const [score, setScore] = useState(0);
+  const [level, setLevel] = useState(1);
 
   const moveLeft = () => {
     if (
@@ -45,24 +49,22 @@ const Game = () => {
     }
   };
 
-  const drop = () => {
-    if (
-      !checkCollision(grid, currentTetromino, {
-        x: position.x,
-        y: position.y + 1,
-      })
-    ) {
-      setPosition((prev) => ({ ...prev, y: prev.y + 1 }));
-    } else {
-      // Merge tetromino into the grid
-      setGrid((prevGrid) =>
-        clearFullRows(mergeTetromino(prevGrid, currentTetromino, position))
-      );
-      // Spawn new piece
-      setCurrentTetromino(getRandomTetromino());
-      setPosition({ x: Math.floor(GRID_WIDTH / 2) - 1, y: 0 });
-    }
-  };
+  const drop = useCallback(() => {
+    setPosition((prevPos) => {
+      const nextPos = { ...prevPos, y: prevPos.y + 1 };
+      if (checkCollision(grid, currentTetromino, nextPos)) {
+        setGrid((prevGrid) => {
+          const newGrid = mergeTetromino(prevGrid, currentTetromino, prevPos);
+          const { newGrid: updatedGrid, rowsCleared } = clearFullRows(newGrid);
+          setScore((prev) => prev + rowsCleared * POINTS_PER_ROW);
+          return updatedGrid;
+        });
+        setCurrentTetromino(getRandomTetromino());
+        return { x: Math.floor(GRID_WIDTH / 2) - 1, y: 0 };
+      }
+      return nextPos;
+    });
+  }, [grid, currentTetromino]);
 
   const rotate = () => {
     const rotatedShape = currentTetromino.shape[0].map((_, i) =>
@@ -73,6 +75,15 @@ const Game = () => {
       setCurrentTetromino(rotatedTetromino);
     }
   };
+
+  useEffect(() => {
+    setLevel(Math.floor(score / POINTS_PER_LEVEL) + 1);
+  }, [score]);
+
+  useEffect(() => {
+    const interval = setInterval(drop, LEVEL_SPEED / level);
+    return () => clearInterval(interval);
+  }, [drop, level]);
 
   useGameControls({
     moveLeft,
@@ -91,9 +102,12 @@ const Game = () => {
 
         if (checkCollision(grid, currentTetromino, nextPos)) {
           // Merge tetromino into grid and spawn new one
-          setGrid((prevGrid) =>
-            clearFullRows(mergeTetromino(prevGrid, currentTetromino, prevPos))
-          );
+          setGrid((prevGrid) => {
+            const { newGrid } = clearFullRows(
+              mergeTetromino(prevGrid, currentTetromino, prevPos)
+            );
+            return newGrid;
+          });
           setCurrentTetromino(getRandomTetromino());
           return { x: Math.floor(GRID_WIDTH / 2) - 1, y: 0 };
         }
@@ -110,7 +124,11 @@ const Game = () => {
 
   return (
     <CenteredGrid fullScreen>
-      <Grid grid={flatGrid} />
+      <Flex>
+        <ScoreBoard score={score} level={level} />
+
+        <Grid grid={flatGrid} />
+      </Flex>
     </CenteredGrid>
   );
 };
