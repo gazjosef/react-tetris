@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Tetromino } from "../game/tetrominoes";
+import Cell from "../components/Cell"; // Reusing the existing Cell component
 
 type Props = {
   tetromino: Tetromino;
@@ -9,43 +10,46 @@ const NextTetromino: React.FC<Props> = ({ tetromino }) => {
   return (
     <Container>
       <h3>Next</h3>
-      <PreviewGrid
-        columns={tetromino.shape[0].length}
-        rows={tetromino.shape.length}
-      >
-        {tetromino.shape.map((row, y) =>
-          row.map((cell, x) => (
-            <PreviewCell
-              key={`${x}-${y}`}
-              filled={cell !== 0}
-              color={tetromino.colour}
-            />
-          ))
-        )}
-      </PreviewGrid>
+      <PreviewWrapper>
+        <PreviewGrid
+          columns={tetromino.shape[0].length}
+          rows={tetromino.shape.length}
+        >
+          {tetromino.shape.map((row, y) =>
+            row.map((cell, x) => (
+              <Cell
+                key={`${x}-${y}`}
+                $cellValue={cell ? tetromino.colour : null}
+              />
+            ))
+          )}
+        </PreviewGrid>
+      </PreviewWrapper>
     </Container>
   );
 };
 
 export default NextTetromino;
 
+// Styling
 const Container = styled.div`
   text-align: center;
   margin-bottom: 20px;
 `;
 
-const PreviewGrid = styled.div<{ columns: number; rows: number }>`
-  display: grid;
-  grid-template-rows: repeat(${(props) => props.rows}, 20px);
-  grid-template-columns: repeat(${(props) => props.columns}, 20px);
-  gap: 2px;
+const PreviewWrapper = styled.div`
+  transform: scale(0.7); /* Adjust to fit within the sidebar */
+  display: flex;
   justify-content: center;
 `;
 
-const PreviewCell = styled.div<{ filled: boolean; color: string }>`
-  width: 20px;
-  height: 20px;
-  background-color: ${({ filled, color }) => (filled ? color : "transparent")};
-  border: ${({ filled }) =>
-    filled ? "1px solid #000" : "1px solid transparent"};
+const PreviewGrid = styled.div<{ columns: number; rows: number }>`
+  display: grid;
+  grid-template-rows: repeat(${(props) => props.rows}, 30px);
+  grid-template-columns: repeat(${(props) => props.columns}, 30px);
+  gap: 2px;
+  justify-content: center;
+  background: #222;
+  padding: 5px;
+  border-radius: 5px;
 `;
