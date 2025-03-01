@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { checkCollision } from "../utils/gameUtils";
+import { checkCollision } from "../game/gameUtils";
 import { Tetromino } from "../game/tetrominoes";
 
 interface GameControls {

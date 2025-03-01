@@ -14,7 +14,7 @@ import {
   mergeTetromino,
   clearFullRows,
   checkCollision,
-} from "../utils/gameUtils";
+} from "./gameUtils";
 
 const LEVEL_SPEED = 1000;
 const POINTS_PER_LEVEL = 100;
