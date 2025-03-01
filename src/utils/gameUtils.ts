@@ -10,13 +10,15 @@ export const mergeTetromino = (
   tetromino: Tetromino,
   position: { x: number; y: number }
 ): (string | null)[][] => {
-  const mergedGrid = grid.map((row) => row.slice());
+  // 🔥 Deep copy grid to avoid mutations
+  const mergedGrid = grid.map((row) => [...row]);
 
   tetromino.shape.forEach((row, y) =>
     row.forEach((value, x) => {
       if (value) {
         const gridX = position.x + x;
         const gridY = position.y + y;
+
         if (
           gridY >= 0 &&
           gridY < GRID_HEIGHT &&
@@ -28,6 +30,7 @@ export const mergeTetromino = (
       }
     })
   );
+
   return mergedGrid;
 };
 
@@ -55,15 +58,19 @@ export const checkCollision = (
   );
 };
 
-export const clearFullRows = (
-  grid: (string | null)[][]
-): { newGrid: (string | null)[][]; rowsCleared: number } => {
-  const newGrid = grid.filter((row) => row.some((cell) => cell === null));
+export const clearFullRows = (grid: (string | null)[][]) => {
+  let newGrid = grid.filter((row) => row.some((cell) => cell === null)); // Keep non-full rows
   const rowsCleared = GRID_HEIGHT - newGrid.length;
 
-  while (newGrid.length < GRID_HEIGHT) {
-    newGrid.unshift(Array(GRID_WIDTH).fill(null));
-  }
+  if (rowsCleared === 0) return { newGrid: grid, rowsCleared: 0 };
+
+  console.log(`✅ Clearing ${rowsCleared} full rows`);
+
+  // Add empty rows at the top
+  newGrid = [
+    ...Array(rowsCleared).fill(Array(GRID_WIDTH).fill(null)),
+    ...newGrid,
+  ];
 
   return { newGrid, rowsCleared };
 };
