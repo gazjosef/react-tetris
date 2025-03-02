@@ -26,3 +26,17 @@ export const Flex = styled.div<{
   gap: ${({ gap }) => gap || "0"};
   width: ${({ fullWidth }) => (fullWidth ? "100%" : "auto")};
 `;
+
+export const FlexColumn = styled.div<{
+  justifyContent?: string;
+  alignItems?: string;
+  gap?: string;
+  fullWidth?: boolean;
+}>`
+  display: flex;
+  flex-direction: column;
+  justify-content: ${({ justifyContent }) => justifyContent || "flex-start"};
+  align-items: ${({ alignItems }) => alignItems || "stretch"};
+  gap: ${({ gap }) => gap || "0"};
+  width: ${({ fullWidth }) => (fullWidth ? "100%" : "auto")};
+`;

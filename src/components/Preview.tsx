@@ -1,40 +1,14 @@
 import styled from "styled-components";
 import { Tetromino } from "../game/tetrominoes";
-import Cell from "../components/Cell"; // Reusing the existing Cell component
+import Cell from "../components/Cell";
 
 type Props = {
   tetromino: Tetromino;
 };
 
-const NextTetromino: React.FC<Props> = ({ tetromino }) => {
-  return (
-    <Container>
-      <h3>Next</h3>
-      <PreviewWrapper>
-        <PreviewGrid
-          columns={tetromino.shape[0].length}
-          rows={tetromino.shape.length}
-        >
-          {tetromino.shape.map((row, y) =>
-            row.map((cell, x) => (
-              <Cell
-                key={`${x}-${y}`}
-                $cellValue={cell ? tetromino.colour : null}
-              />
-            ))
-          )}
-        </PreviewGrid>
-      </PreviewWrapper>
-    </Container>
-  );
-};
-
-export default NextTetromino;
-
-// Styling
-const Container = styled.div`
-  text-align: center;
-  margin-bottom: 20px;
+const PreviewTitle = styled.h3`
+  font-size: 2rem;
+  color: white;
 `;
 
 const PreviewWrapper = styled.div`
@@ -43,13 +17,54 @@ const PreviewWrapper = styled.div`
   justify-content: center;
 `;
 
-const PreviewGrid = styled.div<{ columns: number; rows: number }>`
+const PreviewGrid = styled.div`
   display: grid;
-  grid-template-rows: repeat(${(props) => props.rows}, 30px);
-  grid-template-columns: repeat(${(props) => props.columns}, 30px);
+  grid-template-rows: repeat(6, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 2px;
   justify-content: center;
   background: #222;
-  padding: 5px;
+  /* padding: 5px; */
   border-radius: 5px;
 `;
+
+const GRID_SIZE = 6;
+
+const NextTetromino: React.FC<Props> = ({ tetromino }) => {
+  // Tetromino dimensions
+  const tetroRows = tetromino.shape.length;
+  const tetroCols = tetromino.shape[0].length;
+  // Calculate centering offsets
+  const offsetY = Math.floor((GRID_SIZE - tetroRows) / 2);
+  const offsetX = Math.floor((GRID_SIZE - tetroCols) / 2);
+
+  // Create an empty 6x6 grid
+  const previewGrid = Array.from({ length: GRID_SIZE }, () =>
+    Array(GRID_SIZE).fill(0)
+  );
+
+  // Insert Tetromino into the grid at the calculated position
+  tetromino.shape.forEach((row, y) => {
+    row.forEach((cell, x) => {
+      if (cell) {
+        previewGrid[y + offsetY][x + offsetX] = tetromino.colour;
+      }
+    });
+  });
+  return (
+    <>
+      <PreviewTitle>Next</PreviewTitle>
+      <PreviewWrapper>
+        <PreviewGrid>
+          {previewGrid.map((row, y) =>
+            row.map((cell, x) => (
+              <Cell key={`${x}-${y}`} $cellValue={cell || null} />
+            ))
+          )}
+        </PreviewGrid>
+      </PreviewWrapper>
+    </>
+  );
+};
+
+export default NextTetromino;

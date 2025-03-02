@@ -1,12 +1,14 @@
 import React from "react";
 import styled from "styled-components";
+import { FlexColumn } from "../styles/Layout";
 
 const ScoreBoardWrapper = styled.div`
   background: #333;
-  color: white;
-  padding: 20px;
-  border-radius: 8px;
+  border-radius: 1rem;
   width: 150px;
+  padding: 2rem 0;
+
+  color: white;
   text-align: center;
   font-family: Arial, sans-serif;
 `;
@@ -19,10 +21,12 @@ interface ScoreBoardProps {
 const ScoreBoard: React.FC<ScoreBoardProps> = ({ score, level }) => {
   return (
     <ScoreBoardWrapper>
-      <h2>Score</h2>
-      <p>{score}</p>
-      <h2>Level</h2>
-      <p>{level}</p>
+      <FlexColumn justifyContent="space-around" gap=".5rem">
+        <h2>Score</h2>
+        <p>{score}</p>
+        <h2>Level</h2>
+        <p>{level}</p>
+      </FlexColumn>
     </ScoreBoardWrapper>
   );
 };

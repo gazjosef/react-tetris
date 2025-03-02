@@ -6,7 +6,7 @@ import NextTetromino from "../components/Preview";
 // Hooks
 import useGameControls from "../hooks/useGameControls";
 // Styles
-import { CenteredGrid, Flex } from "../styles/Layout";
+import { CenteredGrid, Flex, FlexColumn } from "../styles/Layout";
 // Game
 import { getRandomTetromino, Tetromino } from "./tetrominoes";
 import {
@@ -15,6 +15,7 @@ import {
   clearFullRows,
   checkCollision,
 } from "./gameUtils";
+import PauseButton from "../components/Button";
 
 const LEVEL_SPEED = 1000;
 const POINTS_PER_LEVEL = 100;
@@ -33,8 +34,12 @@ const Game = () => {
   });
   const [score, setScore] = useState(0);
   const [level, setLevel] = useState(1);
+  const [paused, setPaused] = useState(false);
+
+  const togglePause = () => setPaused((prev) => !prev);
 
   const moveLeft = () => {
+    if (paused) return;
     if (
       !checkCollision(grid, currentTetromino, {
         x: position.x - 1,
@@ -46,6 +51,7 @@ const Game = () => {
   };
 
   const moveRight = () => {
+    if (paused) return;
     if (
       !checkCollision(grid, currentTetromino, {
         x: position.x + 1,
@@ -57,6 +63,7 @@ const Game = () => {
   };
 
   const drop = useCallback(() => {
+    if (paused) return;
     setPosition((prevPos) => {
       const nextPos = { ...prevPos, y: prevPos.y + 1 };
 
@@ -91,9 +98,10 @@ const Game = () => {
 
       return nextPos;
     });
-  }, [grid, currentTetromino, score, nextTetromino]);
+  }, [grid, currentTetromino, score, nextTetromino, paused]);
 
   const rotate = () => {
+    if (paused) return;
     const rotatedShape = currentTetromino.shape[0].map((_, i) =>
       currentTetromino.shape.map((row) => row[i]).reverse()
     );
@@ -108,9 +116,10 @@ const Game = () => {
   }, [score]);
 
   useEffect(() => {
+    if (paused) return;
     const interval = setInterval(drop, LEVEL_SPEED / level);
     return () => clearInterval(interval);
-  }, [drop, level]);
+  }, [drop, level, paused]);
 
   useGameControls({
     moveLeft,
@@ -120,6 +129,7 @@ const Game = () => {
     grid,
     tetromino: currentTetromino,
     position,
+    // paused,
   });
 
   const mergedGrid = mergeTetromino(grid, currentTetromino, position);
@@ -128,13 +138,17 @@ const Game = () => {
   return (
     <CenteredGrid fullScreen>
       <Flex>
-        <div>
+        <FlexColumn alignItems="center" justifyContent="flex-start" gap="1rem">
           <NextTetromino tetromino={nextTetromino} />
           <ScoreBoard score={score} level={level} />
-        </div>
+          <PauseButton onClick={togglePause}>
+            {paused ? "Resume" : "Pause"}
+          </PauseButton>
+        </FlexColumn>
 
         <Grid grid={flatGrid} />
       </Flex>
+      {paused && <div className="pause-overlay">Game Paused</div>}
     </CenteredGrid>
   );
 };

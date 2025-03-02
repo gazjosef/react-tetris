@@ -7,7 +7,7 @@ import Cell from "./Cell";
 export const GRID_WIDTH = 10;
 export const GRID_HEIGHT = 20;
 
-const StyledGrid = styled.div`
+export const StyledGrid = styled.div`
   background: #222;
   padding: 5px;
   border: 2px solid grey;
