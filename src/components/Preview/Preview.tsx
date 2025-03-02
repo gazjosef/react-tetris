@@ -1,32 +1,10 @@
-import styled from "styled-components";
-import { Tetromino } from "../game/tetrominoes";
-import Cell from "../components/Cell";
+import Cell from "../Cell";
+import { Tetromino } from "../../game/tetrominoes";
+import { PreviewGrid, PreviewTitle, PreviewWrapper } from "./Preview.styles";
 
 type Props = {
   tetromino: Tetromino;
 };
-
-const PreviewTitle = styled.h3`
-  font-size: 2rem;
-  color: white;
-`;
-
-const PreviewWrapper = styled.div`
-  transform: scale(0.7); /* Adjust to fit within the sidebar */
-  display: flex;
-  justify-content: center;
-`;
-
-const PreviewGrid = styled.div`
-  display: grid;
-  grid-template-rows: repeat(6, 1fr);
-  grid-template-columns: repeat(6, 1fr);
-  gap: 2px;
-  justify-content: center;
-  background: #222;
-  /* padding: 5px; */
-  border-radius: 5px;
-`;
 
 const GRID_SIZE = 6;
 

@@ -1,5 +1,5 @@
 // gameUtils.ts
-import { GRID_WIDTH, GRID_HEIGHT } from "../components/Grid";
+import { GRID_WIDTH, GRID_HEIGHT } from "../components/Grid/Grid.styles";
 import { Tetromino } from "./tetrominoes";
 
 export const createEmptyGrid = (): (string | null)[][] =>

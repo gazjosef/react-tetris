@@ -1,13 +1,12 @@
 import { useState, useEffect, useCallback } from "react";
 // Components
-import Grid, { GRID_WIDTH } from "../components/Grid";
-import ScoreBoard from "../components/Scoreboard";
-import NextTetromino from "../components/Preview";
-// Hooks
-import useGameControls from "../hooks/useGameControls";
-// Styles
-import { CenteredGrid, Flex, FlexColumn } from "../styles/Layout";
+import Grid from "../components/Grid/Grid";
+import { GRID_WIDTH } from "../components/Grid/Grid.styles";
+import ScoreBoard from "../components/Scoreboard/Scoreboard";
+import NextTetromino from "../components/Preview/Preview";
+import PauseButton from "../components/Button/Button";
 // Game
+import useGameControls from "../hooks/useGameControls";
 import { getRandomTetromino, Tetromino } from "./tetrominoes";
 import {
   createEmptyGrid,
@@ -15,7 +14,8 @@ import {
   clearFullRows,
   checkCollision,
 } from "./gameUtils";
-import PauseButton from "../components/Button";
+// Styles
+import { CenteredGrid, Flex, FlexColumn } from "../styles/Layout";
 
 const LEVEL_SPEED = 1000;
 const POINTS_PER_LEVEL = 100;

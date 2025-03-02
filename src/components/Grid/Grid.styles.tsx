@@ -1,7 +1,4 @@
-// Grid.tsx
-import React from "react";
 import styled from "styled-components";
-import Cell from "./Cell";
 
 // Define grid dimensions here.
 export const GRID_WIDTH = 10;
@@ -17,19 +14,3 @@ export const StyledGrid = styled.div`
   grid-template-rows: repeat(${GRID_HEIGHT}, 30px);
   gap: 1px;
 `;
-
-interface GridProps {
-  grid: (string | null)[];
-}
-
-const Grid: React.FC<GridProps> = ({ grid }) => {
-  return (
-    <StyledGrid>
-      {grid.map((cellValue, index) => (
-        <Cell key={index} $cellValue={cellValue} />
-      ))}
-    </StyledGrid>
-  );
-};
-
-export default Grid;
