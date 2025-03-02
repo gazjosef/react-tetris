@@ -1,12 +1,14 @@
 import Cell from "../Cell";
 import { Tetromino } from "../../game/tetrominoes";
-import { PreviewGrid, PreviewTitle, PreviewWrapper } from "./Preview.styles";
+import { PreviewGrid, PreviewTitle } from "./Preview.styles";
+import { FlexColumn } from "../../styles/Layout";
 
 type Props = {
   tetromino: Tetromino;
 };
 
 const GRID_SIZE = 6;
+const CELL_SIZE = 20;
 
 const NextTetromino: React.FC<Props> = ({ tetromino }) => {
   // Tetromino dimensions
@@ -30,18 +32,21 @@ const NextTetromino: React.FC<Props> = ({ tetromino }) => {
     });
   });
   return (
-    <>
+    <FlexColumn alignItems="center" gap="1rem">
       <PreviewTitle>Next</PreviewTitle>
-      <PreviewWrapper>
-        <PreviewGrid>
-          {previewGrid.map((row, y) =>
-            row.map((cell, x) => (
-              <Cell key={`${x}-${y}`} $cellValue={cell || null} />
-            ))
-          )}
-        </PreviewGrid>
-      </PreviewWrapper>
-    </>
+      <PreviewGrid>
+        {previewGrid.map((row, y) =>
+          row.map((cell, x) => (
+            <Cell
+              height={`${CELL_SIZE}px`}
+              width={`${CELL_SIZE}px`}
+              key={`${x}-${y}`}
+              $cellValue={cell || null}
+            />
+          ))
+        )}
+      </PreviewGrid>
+    </FlexColumn>
   );
 };
 

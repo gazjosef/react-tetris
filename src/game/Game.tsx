@@ -137,8 +137,8 @@ const Game = () => {
 
   return (
     <CenteredGrid fullScreen>
-      <Flex>
-        <FlexColumn alignItems="center" justifyContent="flex-start" gap="1rem">
+      <Flex gap="2rem">
+        <FlexColumn alignItems="center" justifyContent="flex-start" gap="5rem">
           <NextTetromino tetromino={nextTetromino} />
           <ScoreBoard score={score} level={level} />
           <PauseButton onClick={togglePause}>

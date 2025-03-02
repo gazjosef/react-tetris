@@ -6,7 +6,7 @@ export const PreviewTitle = styled.h3`
 `;
 
 export const PreviewWrapper = styled.div`
-  transform: scale(0.7);
+  /* transform: scale(0.7); */
   display: flex;
   justify-content: center;
 `;
