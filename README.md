@@ -81,14 +81,17 @@
 Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `gazjosef`, `tetris`, `twitter_handle`, `gareth-h-a32448191`, `gmail`, `email`, `Weather App`, `project_description`
 -->
 
-About The Project
-This is a modern Tetris game built with Vite, React, and TypeScript. The game follows classic Tetris mechanics, where players rotate and position falling Tetrominoes to clear lines and score points.
+### About The Project
 
-Key Features
-Custom Hook for Game Controls – A custom React hook manages keyboard inputs for movement, rotation, and dropping pieces.
-Game State Management with Context API – Uses the Context API to handle game logic, including the grid, Tetromino states, scoring, and level progression.
-Styled with Styled-Components – The UI is designed with styled-components, allowing for modular and theme-friendly styling.
-This project showcases the use of React hooks, state management, and game logic implementation in an interactive and dynamic environment.
+This is a modern Tetris game built with **Vite**, **React**, and **TypeScript**. The game follows classic Tetris mechanics, where players rotate and position falling Tetrominoes to clear lines and score points.
+
+### Key Features
+
+- **Custom Hook for Game Controls** – A custom React hook manages keyboard inputs for movement, rotation, and dropping pieces.
+- **Game State Management with Context API** – Uses the Context API to handle game logic, including the grid, Tetromino states, scoring, and level progression.
+- **Styled with Styled-Components** – The UI is designed with styled-components, allowing for modular and theme-friendly styling.
+
+This project showcases the use of **React hooks**, **state management**, and **game logic implementation** in an interactive and dynamic environment.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
