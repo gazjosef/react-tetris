@@ -81,8 +81,6 @@
 Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `gazjosef`, `tetris`, `twitter_handle`, `gareth-h-a32448191`, `gmail`, `email`, `Weather App`, `project_description`
 -->
 
-### About The Project
-
 This is a modern Tetris game built with **Vite**, **React**, and **TypeScript**. The game follows classic Tetris mechanics, where players rotate and position falling Tetrominoes to clear lines and score points.
 
 ### Key Features
